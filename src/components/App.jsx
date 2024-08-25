@@ -47,6 +47,7 @@ const handleClick = (event) => {
       if (savedClicks !== null) {
         return  window.localStorage.setItem(opinionTag, parseInt(savedClicks) + 1)
       }
+      return window.localStorage.setItem(opinionTag, 1)
     }
   })
 };
