@@ -4,11 +4,6 @@ import { Option } from './Option'
 import { Feedback } from './Feedback'
 import { Notification } from './Notification'
 
-
-
-
-function App() {
-
 const opinionTags = ["good", "neutral", "bad"]
 
 const feedbacks ={
@@ -22,34 +17,36 @@ opinionTags.map((opinionTag)=>{
         if (savedClicks !== null) {
           return feedbacks[opinionTag] = parseInt(savedClicks);
         }
+        window.localStorage.setItem(opinionTag, 0)
 })
 
-const Feedbacks= ()=> {
-  for (const key in feedbacks) {
-    if(feedbacks[key]) return true
+const localStorageUpdate = (opinionTags, clicks)=>{
+  opinionTags.map((opinionTag)=>{
+    window.localStorage.setItem(opinionTag, clicks[opinionTag])
+  })
 }
-};
+function App() {
+  
+  const [clicks, setClicks] = useState(feedbacks);
+  
+  const Feedbacks= ()=> {
+    for (const key in clicks) {
+    if(clicks[key]) return true
+  }};
 
-const [clicks, setClicks] = useState(0);
-
-
-
-const handleClick = (event) => {
+const handleClick = (name) => {
   event.preventDefault()
-  setClicks(clicks+1)
-  if (event.target.id=="reset"){
-    opinionTags.map((opinionTag)=>{window.localStorage.setItem(opinionTag, 0)})
+  if (name=="reset"){
+    setClicks({
+                good: 0,
+                neutral:0,
+                bad:0,
+              })
+    localStorageUpdate(opinionTags, clicks)
     return
   }
-  opinionTags.map((opinionTag)=>{
-    if (event.target.id==opinionTag){
-      const savedClicks = window.localStorage.getItem(opinionTag);
-      if (savedClicks !== null) {
-        return  window.localStorage.setItem(opinionTag, parseInt(savedClicks) + 1)
-      }
-      return window.localStorage.setItem(opinionTag, 1)
-    }
-  })
+  setClicks({...clicks, [name] : clicks[name] + 1})
+  localStorageUpdate(opinionTags, clicks)
 };
 
   return (
@@ -61,7 +58,7 @@ const handleClick = (event) => {
       enableReset={Feedbacks()}/>
       {Feedbacks() 
       ? <Feedback
-      statValue={feedbacks}
+      statValue={clicks}
       /> 
       : <Notification/>}
     </>

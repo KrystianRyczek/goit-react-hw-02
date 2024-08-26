@@ -1,13 +1,13 @@
 
 const Btn = ({name, handleClick})=>{
     return  (
-        <button onClick={handleClick} id={name.toLowerCase()}>{name}</button>
+        <button onClick={()=>handleClick(name)} id={name.toLowerCase()}>{name}</button>
       );
 }
 
-const BtnReset = ({handleClick})=>{
+const BtnReset = ({name, handleClick})=>{
     return  (
-        <button onClick={handleClick} id="reset">Reset</button>
+        <button onClick={()=>handleClick(name)} id="reset">Reset</button>
       );
 }
 
@@ -20,9 +20,9 @@ export const Option =({opinionTags, enableReset, handleClick})=>{
                                                       key={opinionTag}
                                                       name={opinionTag}
                                                       handleClick={handleClick}
-                                                      //varnames={btnNames}
                                                       />})}
                                             {enableReset && <BtnReset
+                                            name="reset"
                                             handleClick={handleClick}
                                             />}
                                       </form>
