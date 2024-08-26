@@ -1,13 +1,13 @@
 
 const Btn = ({name, handleClick})=>{
     return  (
-        <button onClick={()=>handleClick(name)} id={name.toLowerCase()}>{name}</button>
+        <button onClick={(event)=>handleClick({event, name})} id={name.toLowerCase()}>{name}</button>
       );
 }
 
 const BtnReset = ({name, handleClick})=>{
     return  (
-        <button onClick={()=>handleClick(name)} id="reset">Reset</button>
+        <button onClick={(event)=>handleClick({event, name})} id="reset">Reset</button>
       );
 }
 

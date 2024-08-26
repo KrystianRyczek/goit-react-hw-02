@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Description } from './Description'
 import { Option } from './Option'
 import { Feedback } from './Feedback'
@@ -28,13 +28,17 @@ const localStorageUpdate = (opinionTags, clicks)=>{
 function App() {
   
   const [clicks, setClicks] = useState(feedbacks);
-  
+  useEffect(() => {
+    localStorageUpdate(opinionTags, clicks)
+  }, [clicks]);
+
+
   const Feedbacks= ()=> {
     for (const key in clicks) {
     if(clicks[key]) return true
   }};
 
-const handleClick = (name) => {
+const handleClick = ({event, name}) => {
   event.preventDefault()
   if (name=="reset"){
     setClicks({
@@ -42,13 +46,13 @@ const handleClick = (name) => {
                 neutral:0,
                 bad:0,
               })
-    localStorageUpdate(opinionTags, clicks)
     return
   }
   setClicks({...clicks, [name] : clicks[name] + 1})
-  localStorageUpdate(opinionTags, clicks)
+  
 };
 
+  
   return (
     <>
       <Description/>
